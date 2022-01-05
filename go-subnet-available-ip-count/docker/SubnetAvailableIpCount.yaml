@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: subnetavailableipcount-ns
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: subnetavailableipcount-sa
+  namespace: subnetavailableipcount-ns
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::871386769552:role/demo-robertom-us-east-1-subnetavailableipcount
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subnetavailableipcount-app
+  labels:
+    app: subnetavailableipcount-app
+  namespace: subnetavailableipcount-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subnetavailableipcount-app
+  template:
+    metadata:
+      labels:
+        app: subnetavailableipcount-app
+    spec:
+      serviceAccountName: subnetavailableipcount-sa
+      containers:
+        - name: subnetavailableipcount-app
+          image: 871386769552.dkr.ecr.us-east-1.amazonaws.com/marcosroberto/subnet-available-ip-count:latest
+          env:
+          - name: REGION
+            value: "us-east-1"
+          - name: VPC_ID
+            value: "vpc-f7138f91"
+          - name: NAMESPACE
+            value: "VPC/Subnets"
+---

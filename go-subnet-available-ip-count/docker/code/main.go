@@ -1,8 +1,8 @@
-//robertom-aws-subnet-available-ip-count-check
 package main
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -11,18 +11,17 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
 
-const (
-	REGION = "us-east-1"
-	VPC_ID = "vpc-f7138f91"
-	NAMESPACE = "VPC/Subnets"
-)
-
 var (
+	REGION = os.Getenv("REGION")
+	VPC_ID = os.Getenv("VPC_ID")
+	NAMESPACE = os.Getenv("NAMESPACE")
+
 	objSession = session.Must(session.NewSession(&aws.Config {
 		Region: aws.String(REGION),
 	}))
 	ec2Session *ec2.EC2
 	cloudwatchSession *cloudwatch.CloudWatch
+
 )
 
 func init()	{
@@ -96,7 +95,7 @@ func Handler() {
 	resultMap, err := getSubnetAvailableIpAddressCountInVPC(VPC_ID, ec2Session)
 	fmt.Println(resultMap, err)
 	putCloudWatchMetrics(resultMap)
-	fmt.Println("Function invoked!")
+	fmt.Println("Last Execution Time:", time.Now().Format("2006-01-02 15:04:05"))
 }
 
 func main()	{
