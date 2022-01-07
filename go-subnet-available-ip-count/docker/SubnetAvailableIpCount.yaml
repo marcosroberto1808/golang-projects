@@ -25,18 +25,21 @@ spec:
       app: subnetavailableipcount-app
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/scheme: "http"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "9000"
       labels:
         app: subnetavailableipcount-app
     spec:
       serviceAccountName: subnetavailableipcount-sa
       containers:
         - name: subnetavailableipcount-app
-          image: 871386769552.dkr.ecr.us-east-1.amazonaws.com/marcosroberto/subnet-available-ip-count:latest
+          image: 871386769552.dkr.ecr.us-east-1.amazonaws.com/marcosroberto/subnet-available-ip-count:2.0
           env:
           - name: REGION
             value: "us-east-1"
           - name: VPC_ID
             value: "vpc-f7138f91"
-          - name: NAMESPACE
-            value: "VPC/Subnets"
 ---
