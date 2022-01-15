@@ -16,8 +16,8 @@ import (
 
 var (
 	// Environment Variables
-	REGION = os.Getenv("REGION")
-	VPC_ID = os.Getenv("VPC_ID")
+	REGION = os.Getenv("AWS_REGION")
+	VPC_ID = os.Getenv("AWS_VPC_ID")
 
 	// Session Object for AWS Connection
 	objSession = session.Must(session.NewSession(&aws.Config {
