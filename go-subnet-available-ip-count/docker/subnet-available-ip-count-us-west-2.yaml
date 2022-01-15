@@ -36,7 +36,7 @@ spec:
       serviceAccountName: subnetavailableipcount-sa
       containers:
         - name: subnetavailableipcount-app
-          image: 871386769552.dkr.ecr.us-east-1.amazonaws.com/marcosroberto/subnet-available-ip-count:2.0
+          image: 871386769552.dkr.ecr.us-east-1.amazonaws.com/gdrs/prom-aws-subnets-exporter:latest
           env:
           - name: REGION
             value: "us-west-2"
